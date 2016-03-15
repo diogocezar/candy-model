@@ -1,20 +1,20 @@
 {
-  "name"        : "candy-model",
-  "version"     : "0.0.1",
-  "description" : "Just a NodeJS + MongoDB model to start new projects.",
-  "main"        : "candy.js",
-  "directories" : {
-    "app"       : "app",
-    "doc"       : "docs",
-    "database"  : "database",
-    "configs"   : "configs"
+  "name": "candy-model",
+  "version": "0.0.1",
+  "description": "Just a NodeJS + MongoDB model to start new projects.",
+  "main": "candy.js",
+  "directories": {
+    "app": "app",
+    "doc": "docs",
+    "database": "database",
+    "configs": "configs"
   },
-  "scripts" : {
-    "test"  : "echo \"Error: no test specified\" && exit 1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type" : "git",
-    "url"  : "git+https://github.com/diogocezar/candy-model.git"
+    "type": "git",
+    "url": "git+https://github.com/diogocezar/candy-model.git"
   },
   "keywords": [
     "SocketIO",
@@ -23,10 +23,15 @@
     "Mongoose",
     "CandyModel"
   ],
-  "author"  : "Jadir Junior <jadirjsjunior@gmail.com>, Diogo Cezar <diogo@diogocezar.com>",
-  "license" : "ISC",
-  "bugs"    : {
-    "url"   : "https://github.com/diogocezar/candy-model/issues"
+  "author": "Jadir Junior <jadirjsjunior@gmail.com>, Diogo Cezar <diogo@diogocezar.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diogocezar/candy-model/issues"
   },
-  "homepage" : "https://github.com/diogocezar/candy-model#readme"
+  "homepage": "https://github.com/diogocezar/candy-model#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.4.7",
+    "socket.io": "^1.4.5"
+  }
 }

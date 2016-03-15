@@ -31,7 +31,7 @@ var Candy = {
         Candy.Rules = require('./app/rules/Rules');
         
         Candy.setEnvironments(Candy.App);
-        Candy.setRoutes(Candy.App, Candy.Routes, Candy.Rules);
+        Candy.setRoutes(Candy.App, Candy.Routes, Candy.Rules, Candy.Modules.Mongoose);
         Candy.startServer(Candy.Server, Candy.App);
     },
     setEnvironments: function(app){
@@ -39,8 +39,8 @@ var Candy = {
         app.set('views', Candy.Modules.Path.join(__dirname, './app/views'));
         app.set('view engine', 'ejs');
     },
-    setRoutes: function(app, routes, rules){
-        routes = require('./app/routes/Routes')(app, rules);
+    setRoutes: function(app, routes, rules, mongoose){
+        routes = require('./app/routes/Routes')(app, rules, mongoose);
     },
     startServer: function(server, app){
         server = Candy.Modules.Http.createServer(app);
