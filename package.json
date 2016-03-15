@@ -4,7 +4,8 @@
   "description" : "Just a NodeJS + MongoDB model to start new projects.",
   "main"        : "candy.js",
   "directories" : {
-    "doc"       : "doc",
+    "app"       : "app",
+    "doc"       : "docs",
     "database"  : "database",
     "configs"   : "configs"
   },
