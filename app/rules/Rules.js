@@ -17,13 +17,16 @@ var Rules = {
             res.json(result);
         });
     },
-    add: function(schema, model, req, res){
+    save: function(schema, model, req, res){
         model.create(schema, function(err, result) {
             if(err){
                 Debug.error(err);
             }
             res.json(result);
         });
+    },
+    delete: function(){
+        //implements here
     }
 }
 

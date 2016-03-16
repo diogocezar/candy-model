@@ -1,5 +1,8 @@
 var ProductModel = {
-    Name     : null,
+    Names   : {
+        Single : 'product',
+        Plural : 'products'
+    },
     Mongoose : null,
     Schema   : {
         name     : {type: String, required: true},
@@ -8,11 +11,12 @@ var ProductModel = {
         quantity : {type: Number, required: true},
         sold     : {type: Number}
     },
+    Model : null,
     init: function(mongoose){
         ProductModel.Mongoose      = mongoose;
-        ProductModel.Name          = "Product";
         ProductModel.ProductSchema = ProductModel.Mongoose.Schema(ProductModel.Schema);
-        return ProductModel.Mongoose.model(ProductModel.Name, ProductModel.ProductSchema);
+        ProductModel.Model         = ProductModel.Mongoose.model(ProductModel.Names.Single, ProductModel.ProductSchema);
+        return ProductModel;
     }
 };
 

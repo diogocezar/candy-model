@@ -1,29 +1,81 @@
+var Debug = require('../debug/Debug');
+
 var Routes = {
-    Models : {
-        ProductModel : null
-    },
+    Models : [],
     init: function(app, rules, mongoose){
 
-        Routes.Models.ProductModel = require('../models/ProductModel')(mongoose);
+        /**
+         * Automatic Models are Loaded if they are into CollectionModel Models Array.
+         */
 
-        app.get('/products', function(req, res) {
-            rules.find(Routes.Models.ProductModel, req, res);
-        });
+        Routes.Models = require('../models/CollectionModels')(mongoose);
 
-        app.get('/product/:id', function(req, res) {
-            rules.findById(Routes.Models.ProductModel, req, res);
-        });
+        for(var i=0; i<Routes.Models.length; i++){
+            /**
+             * This clousure allows to access i var inside internal funcions.
+             */
+            (function(i){
 
-        app.post('/products', function (req, res) {
-            var SampleSchema = {
-                name     : "bolo",
-                category : "bolos",
-                price    : 30.0,
-                quantity : 14,
-                sold     : 28
-            };
-            rules.add(SampleSchema, Routes.Models.ProductModel, req, res);
-        });
+                /**
+                 * Get all items from model collection.
+                 */
+
+                Debug.log("\tGenerating automatic roots to: " + Routes.Models[i].Names.Plural);
+
+                app.get('/' + Routes.Models[i].Names.Plural, function(req, res){
+                    rules.find(Routes.Models[i].Model, req, res);
+                });
+
+                /**
+                 * Get single item from model collection.
+                 */
+                app.get('/' + Routes.Models[i].Names.Single + '/:id', function(req, res){
+                   rules.findById(Routes.Models[i].Model, req, res);
+                });
+
+                /**
+                 * Save an item at model collection.
+                 */
+                app.post('/' + Routes.Models[i].Names.Plural, function(req, res){
+                    /**
+                     * This is for tests only, these data need to came from front-end.
+                     */
+                    if(Routes.Models[i].Names.Single == 'product'){
+                        var SampleSchema = {
+                            name     : "bolo",
+                            category : "bolos",
+                            price    : 30.0,
+                            quantity : 14,
+                            sold     : 28
+                        };
+                    }
+                    else{
+                        var SampleSchema = {
+                            name     : "foo",
+                            email    : "foo@bar.com"
+                        };
+                    }
+                    rules.save(SampleSchema, Routes.Models[i].Model, req, res);
+                });
+
+                /**
+                 * Delete an item from model collection.
+                 */
+
+                 // implements here
+
+            })(i);
+        }
+
+        /**
+         * Manual Routes Can Be Defined Here
+         */
+
+         Debug.log("\tDefining static routes.");
+
+         app.get('/foo', function(req, res){
+            res.send('bar');
+         });
     }
 };
 
