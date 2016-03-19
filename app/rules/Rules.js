@@ -25,8 +25,26 @@ var Rules = {
             res.json(result);
         });
     },
-    delete: function(){
-        //implements here
+    delete: function(model, req, res){
+        model.findByIdAndRemove(req.params.id, function(err, result) {
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
+    },
+    update: function(schema, model, req, res) {
+        model.findById(req.params.id, function(err, result){
+            if(err){
+                Debug.error(err);
+            }
+            schema.save(function(err) {
+                if(err){
+                    Debug.error(err);
+                }
+                res.json(schema);
+            })
+        })
     }
 }
 

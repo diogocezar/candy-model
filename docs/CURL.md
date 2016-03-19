@@ -11,3 +11,9 @@ curl -X POST http://localhost:8080/products
 ```
 curl -X POST http://localhost:8080/users
 ```
+
+## Command to delete any Product
+
+```
+curl -X DELETE http://localhost:8080/product/:id
+```
