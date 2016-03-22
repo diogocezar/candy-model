@@ -15,11 +15,12 @@ var Candy = {
     Routes : null,
     Rules  : null,
     init: function(){
-        Candy.Modules.SocketIO = require('socket.io');
-        Candy.Modules.Express  = require('express');
-        Candy.Modules.Mongoose = require('mongoose');
-        Candy.Modules.Path     = require('path');
-        Candy.Modules.Http     = require('http');
+        Candy.Modules.SocketIO   = require('socket.io');
+        Candy.Modules.Express    = require('express');
+        Candy.Modules.Mongoose   = require('mongoose');
+        Candy.Modules.Path       = require('path');
+        Candy.Modules.Http       = require('http');
+        Candy.Modules.BodyParser = require("body-parser");
 
         Candy.Configs.DataBase     = require('./configs/DataBase');
         Candy.Configs.Environments = require('./configs/Environments');
@@ -30,9 +31,9 @@ var Candy = {
         Candy.Rules = require('./app/rules/Rules');
 
         Candy.setEnvironments(Candy.App);
+        Candy.startServer(Candy.Server, Candy.App);
         Candy.setRoutes(Candy.App, Candy.Routes, Candy.Rules, Candy.Modules.Mongoose);
         Candy.startMongo(Candy.Modules.Mongoose);
-        Candy.startServer(Candy.Server, Candy.App);
     },
     setEnvironments: function(app){
         Candy.Debug.log("Configurating Express Environments.");
@@ -50,6 +51,9 @@ var Candy = {
         server.listen(app.get('port'), function(){
             Candy.Debug.log("Express Server listening on Port: " + app.get('port'));
         });
+        app.use(Candy.Modules.BodyParser.json());
+        app.use(Candy.Modules.BodyParser.urlencoded({extended: true}));
+        app.use('/public', Candy.Modules.Express.static('public'));
     },
     startMongo: function(mongoose){
         Candy.Debug.log("Starting MongoDB Connection.");

@@ -45,7 +45,36 @@ var Rules = {
                 res.json(schema);
             })
         })
+    },
+    search: function(model, req, res){
+        var op = null;
+        switch(req.params.operator){
+            case 'gt': op = '$gt'; break;
+            case 'lt': op = '$lt'; break;
+            case 'eq': op = '$eq'; break;
+        }
+        var SearchParams = {};
+        SearchParams[req.params.field] = {  op : req.params.value };
+        model.find(SearchParams, function(err, result){
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
     }
+    /*
+        Person.
+            find({
+            occupation: /host/,
+            'name.last': 'Ghost',
+            age: { $gt: 17, $lt: 66 },
+            likes: { $in: ['vaporizing', 'talking'] }
+            }).
+            limit(10).
+            sort({ occupation: -1 }).
+            select({ name: 1, occupation: 1 }).
+            exec(callback);
+    */
 }
 
 module.exports = Rules;

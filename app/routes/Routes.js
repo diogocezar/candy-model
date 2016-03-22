@@ -47,7 +47,7 @@ var Routes = {
                             email    : "foo@bar.com"
                         };
                     }
-                    rules.save(SampleSchema, Routes.Models[i].Model, req, res);
+                    rules.save(req.body.Schema, Routes.Models[i].Model, req, res);
                 });
                 /**
                  * Delete an item from model collection.
@@ -55,7 +55,6 @@ var Routes = {
                 app.delete('/' + Routes.Models[i].Names.Single + '/:id', function(req, res){
                     var id  = req.params.id;
                     rules.delete(Routes.Models[i].Model, req, res);
-
                 });
                 /**
                  * Update an item from model collection
@@ -70,6 +69,111 @@ var Routes = {
                         };
                     rules.save(SampleSchema, Routes.Models[i].Model, req, res);
                 });
+
+                /**
+                 * Como nós resgataremos os dados da requisição e montaremos o schema?
+                 */
+
+                /**
+                * Implementar search
+                * Rota que retorna um model baseado se algum campo possui determinado valor
+                * Exemplo: /products/search/price/eq/30
+                * Exemplo: /products/search/price/gt/30
+                * Exemplo: /products/search/price/lt/30
+                */
+                app.post('/' + Routes.Models[i].Names.Plural + '/search' + '/:field' + '/:operator' + ':value', function(req, res){
+                    rules.search(Routes.Models[i].Model, req, res);
+                });
+
+                /**
+                * Implementar first
+                * Retorna os n primeiros itens
+                * Exemplo: /products/first/10
+                */
+
+                /**
+                * Implementar last
+                * Retorna os n últimos itens
+                * Exemplo: /products/last/10
+                */
+
+                /**
+                * Implementar paginação
+                * Onde definir items por página?
+                * Exemplo: /products/page/1
+                */
+
+                /**
+                * Implementar relacionamentos 1-n ???
+                * Como podemos retornar os objetos?
+                */
+
+                /**
+                * Implementar relacionamentos n-n ???
+                * Como podemos retornar os objetos?
+                */
+
+                 /**
+                * Implementar beetween
+                * Exemplo: /products/search/price/between/10/20
+                */
+
+                 /**
+                * Implementar delete multiplos
+                * Exemplo: /products/delete/1,2,3,4
+                */
+
+                /**
+                * Implementar count
+                * Retorna o numero de registros
+                * Exemplo: /products/count
+                */
+
+                /**
+                * Implementar max
+                * Retorna o maior
+                * Exemplo: /products/price/max
+                */
+
+                /**
+                * Implementar min
+                * Retorna o min
+                * Exemplo: /products/price/min
+                */
+
+                /**
+                * Implementar sum
+                * Retorna o somatorio
+                * Exemplo: /products/price/sum
+                */
+
+                /**
+                * Implementar avg
+                * Retorna a media
+                * Exemplo: /products/price/avg
+                */
+
+                /**
+                * Implementar os anteriores (avg, sum, min, max, count) com condições
+                * Exemplo: /products/sum/between/10/20
+                * Exemplo: /products/sum/biggerthen/30
+                * Exemplo: /products/sum/lessthan/20
+                */
+
+                /**
+                * Implementar exclusão lógica
+                * Não deleta o registro de fato, apenas seta uma flag: removed = true
+                */
+
+                /**
+                 * Onde podemos personalizar as mensagens de erro se um campo não for preenchido corretamente?
+                 */
+
+                /**
+                 * Sistema de autenticação:
+                 * Onde podemos definir quais destas rotas vão poder ser acessadas
+                 * por todos usuários ou não.
+                 */
             })(i);
         }
         /**
