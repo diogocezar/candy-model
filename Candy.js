@@ -1,10 +1,11 @@
 var Candy = {
     Modules : {
-        Mongoose : null,
-        Express  : null,
-        SocketIO : null,
-        Path     : null,
-        Http     : null,
+        Mongoose   : null,
+        Express    : null,
+        SocketIO   : null,
+        Path       : null,
+        Http       : null,
+        BodyParser : null
     },
     Configs : {
         DataBase     : null,

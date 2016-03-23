@@ -29,88 +29,48 @@ var Routes = {
                  * Save an item at model collection.
                  */
                 app.post('/' + Routes.Models[i].Names.Plural, function(req, res){
-                    /**
-                     * This is for tests only, these data need to came from front-end.
-                     */
-                    if(Routes.Models[i].Names.Single == 'product'){
-                        var SampleSchema = {
-                            name     : "bolo",
-                            category : "bolos",
-                            price    : 30.0,
-                            quantity : 14,
-                            sold     : 28
-                        };
-                    }
-                    else{
-                        var SampleSchema = {
-                            name     : "foo",
-                            email    : "foo@bar.com"
-                        };
-                    }
                     rules.save(req.body.Schema, Routes.Models[i].Model, req, res);
                 });
                 /**
                  * Delete an item from model collection.
                  */
                 app.delete('/' + Routes.Models[i].Names.Single + '/:id', function(req, res){
-                    var id  = req.params.id;
                     rules.delete(Routes.Models[i].Model, req, res);
                 });
                 /**
                  * Update an item from model collection
                  */
                 app.put('/' + Routes.Models[i].Names.Single + '/:id', function(req, res){
-                    var SampleSchema = {
-                            name     : "Cake",
-                            category : "bolos",
-                            price    : 30.0,
-                            quantity : 14,
-                            sold     : 28
-                        };
-                    rules.save(SampleSchema, Routes.Models[i].Model, req, res);
+                    rules.save(req.body.Schema, Routes.Models[i].Model, req, res);
                 });
-
                 /**
-                 * Como nós resgataremos os dados da requisição e montaremos o schema?
-                 */
-
-                /**
-                * Implementar search
-                * Rota que retorna um model baseado se algum campo possui determinado valor
-                * Exemplo: /products/search/price/eq/30
-                * Exemplo: /products/search/price/gt/30
-                * Exemplo: /products/search/price/lt/30
+                * Search at database based on fields inputed at URL, examples:
+                * /products/search/price/eq/30
+                * /products/search/price/gt/30
+                * /products/search/price/lt/30
                 */
-                app.post('/' + Routes.Models[i].Names.Plural + '/search' + '/:field' + '/:operator' + ':value', function(req, res){
+                app.get('/' + Routes.Models[i].Names.Plural + '/search' + '/:field' + '/:operator' + '/:value', function(req, res){
                     rules.search(Routes.Models[i].Model, req, res);
                 });
 
                 /**
-                * Implementar first
-                * Retorna os n primeiros itens
-                * Exemplo: /products/first/10
+                * Sort and limit registers.
+                * /products/sort-limit/price/3/1 - ASC
+                * /products/sort-limit/price/3/-1 - DESC
+                * /products/sort-limit/price/3 - Default DESC
                 */
+                app.get('/' + Routes.Models[i].Names.Plural + '/sort-limt' + '/:field' + '/:limit', function(req, res){
+                    rules.sortLimit(Routes.Models[i].Model, req, res);
+                });
+                app.get('/' + Routes.Models[i].Names.Plural + '/sort-limt' + '/:field' + '/:limit' + '/:type', function(req, res){
+                    rules.sortLimit(Routes.Models[i].Model, req, res);
+                });
 
-                /**
-                * Implementar last
-                * Retorna os n últimos itens
-                * Exemplo: /products/last/10
-                */
 
                 /**
                 * Implementar paginação
                 * Onde definir items por página?
                 * Exemplo: /products/page/1
-                */
-
-                /**
-                * Implementar relacionamentos 1-n ???
-                * Como podemos retornar os objetos?
-                */
-
-                /**
-                * Implementar relacionamentos n-n ???
-                * Como podemos retornar os objetos?
                 */
 
                  /**

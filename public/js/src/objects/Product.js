@@ -9,9 +9,13 @@ var Product = {
         $(".btn-save").on('click', function(){
             Product.save();
         });
+        $(".btn-search").on('click', function(){
+            Product.search();
+        });
         // Implementar botões para:
         // Excluir
         // Mostrar um registro
+        // Implementar msg de erro se algum campo não for preenchido ou estiver incorreto -> retornar e tratar json
     },
     fillModel: function(){
         ProductModel.Schema.name     = $("#name").val();
@@ -38,9 +42,22 @@ var Product = {
             type        : 'GET',
             contentType : 'application/json',
             success     : function(data){
-                $("#console-produtos").empty().html(JSON.stringify(data));
+                Product.consoleDisplay(data);
             }
         });
+    },
+    search: function(){
+        $.ajax({
+            url         : '../products/search/price/lt/20',
+            type        : 'GET',
+            contentType : 'application/json',
+            success     : function(data){
+                Product.consoleDisplay(data);
+            }
+        });
+    },
+    consoleDisplay: function(json){
+        $("#console-produtos").empty().html(JSON.stringify(json));
     },
     // Implementar as seguintes funções:
     get: function(id){},

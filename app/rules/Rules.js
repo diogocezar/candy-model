@@ -54,13 +54,28 @@ var Rules = {
             case 'eq': op = '$eq'; break;
         }
         var SearchParams = {};
-        SearchParams[req.params.field] = {  op : req.params.value };
+        var Operation    = {};
+        Operation[op]    = req.params.value;
+        SearchParams[req.params.field] = Operation;
         model.find(SearchParams, function(err, result){
             if(err){
                 Debug.error(err);
             }
             res.json(result);
         });
+    },
+    sort: function(model, req, res){
+        var Sort = {};
+        Sort[req.params.field] = parseInt(req.params.type) || -1;
+        model.find({}).
+            limit(req.params.limit).
+            sort(Sort).
+            exec(function(err, result){
+                if(err){
+                    Debug.error(err);
+                }
+                res.json(result);
+            });
     }
     /*
         Person.
