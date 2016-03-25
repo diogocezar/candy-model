@@ -5,9 +5,9 @@ O padrão MVC tornou-se quase que uma convenção para desenvolvimento web.
 
 O Candy Model é um projeto experimental que busca criar um modelo para a criação de websites utilizando NodeJS e o banco de dados MongoDB.
 
-Nossa proposta é simples, automatizar uma serie de funcionalidades que seriam comum a todas as controllers do nosso sistema.
+Nossa proposta é simples, automatizar uma serie de funcionalidades que seriam comuns a todas as controllers de um sistema.
 
-Utilizando a ideia de reutilização, todos os dias temos que escrever muita coisa semelhante em controllers diferentes, por exemplo:
+Todos os dias temos que escrever e re-escrever muita coisa semelhante, em controllers diferentes, como por exemplo:
 
 ```js
 Products{
@@ -22,9 +22,9 @@ Users{
 }
 ```
 
-A proposta deste modelo é criar um middleware que automatiza este processo.
+A proposta deste modelo é criar um *middleware* que automatize este processo.
 
-Para isso tivemos que:
+Para isso, propomos:
 
 1. Criar uma coleção de models:
 
@@ -37,7 +37,6 @@ var Collection = {
         return Collection.Models;
     }
 }
-...
 ```
 
 2. Criar um esquema dinâmico na definição das rotas:
@@ -66,15 +65,84 @@ var Rules = {
             res.json(result);
         });
     },
-    ...
+    findById: function(model, req, res){
+        model.findById(req.params.id, function(err, result){
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
+    },
+    save: function(schema, model, req, res){
+        model.create(schema, function(err, result) {
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
+    },
+    delete: function(model, req, res){
+        model.findByIdAndRemove(req.params.id, function(err, result) {
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
+    },
+    update: function(schema, model, req, res) {
+        model.findById(req.params.id, function(err, result){
+            if(err){
+                Debug.error(err);
+            }
+            schema.save(function(err) {
+                if(err){
+                    Debug.error(err);
+                }
+                res.json(schema);
+            })
+        })
+    },
+    search: function(model, req, res){
+        var op = null;
+        switch(req.params.operator){
+            case 'gt': op = '$gt'; break;
+            case 'lt': op = '$lt'; break;
+            case 'eq': op = '$eq'; break;
+        }
+        var SearchParams = {};
+        var Operation    = {};
+        Operation[op]    = req.params.value;
+        SearchParams[req.params.field] = Operation;
+        model.find(SearchParams, function(err, result){
+            if(err){
+                Debug.error(err);
+            }
+            res.json(result);
+        });
+    },
+    sort: function(model, req, res){
+        var Sort = {};
+        Sort[req.params.field] = parseInt(req.params.type) || -1;
+        model.find({}).
+            limit(req.params.limit).
+            sort(Sort).
+            exec(function(err, result){
+                if(err){
+                    Debug.error(err);
+                }
+                res.json(result);
+            });
+    }
 }
 ```
 
 Desta forma, nós conseguimos um modelo que estaria pronto e funcional para trabalhar com vários CRUDS sem a necessidade de replicação das mesmas funcionalidades.
 
-Além disso, uma pequea interface de Front-End está implementada para testar algumas das funcionalidades já implementadas.
+Claro que, regras de negócios específicas ainda poderiam/deveriam estar em suas devidas controllers. Neste modelo, ainda não estão implmentadas as controllers, mas é um projeto futuro.
 
-Para entender todas as funcionalidades e ideias dê uma olhada no arquivo Routes.json
+Além disso, uma pequea interface de *Front-End* está implementada para testar algumas das funcionalidades já implementadas.
+
+Para entender todas as funcionalidades e ideias dê uma olhada no arquivo *Routes.js*
 
 Este modelo utiliza as tecnologias:
 
@@ -82,11 +150,10 @@ Este modelo utiliza as tecnologias:
 2. Express;
 3. Body Parser;
 
-Caso queira clonar o projeto:
+Caso queira clonar e executar o projeto:
 
 1. ./start_database.sh
-2. Execute
-
+2.
 ```js
 node Candy.js
 ```
