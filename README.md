@@ -1,5 +1,5 @@
-# candy-model
-Just a NodeJS + MongoDB model to start new projects.
+# Candy Model
+
 
 O padrão MVC tornou-se quase que uma convenção para desenvolvimento web.
 
@@ -9,7 +9,7 @@ Nossa proposta é simples, automatizar uma serie de funcionalidades que seriam c
 
 Utilizando a ideia de reutilização, todos os dias temos que escrever muita coisa semelhante em controllers diferentes, por exemplo:
 
-```
+```js
 Products{
     save(){}
     delete(){}
@@ -28,7 +28,7 @@ Para isso tivemos que:
 
 1. Criar uma coleção de models:
 
-```
+```js
 var Collection = {
     Models : [],
     init: function(mongoose){
@@ -42,7 +42,7 @@ var Collection = {
 
 2. Criar um esquema dinâmico na definição das rotas:
 
-```
+```js
 Routes.Models = require('../models/CollectionModels')(mongoose);
 for(var i=0; i<Routes.Models.length; i++){
     (function(i){
@@ -56,7 +56,7 @@ for(var i=0; i<Routes.Models.length; i++){
 3. Centralizar todas as funcionalidades em uma controller de Regras:
 
 
-```
+```js
 var Rules = {
     find: function(model, req, res){
         model.find({}, function(err, result){
@@ -87,9 +87,9 @@ Caso queira clonar o projeto:
 1. ./start_database.sh
 2. Execute
 
-```
+```js
 node Candy.js
-````
+```
 
 3. Acesse /public
 
