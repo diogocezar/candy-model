@@ -2,7 +2,6 @@ var Candy = {
     Modules : {
         Mongoose   : null,
         Express    : null,
-        SocketIO   : null,
         Path       : null,
         Http       : null,
         BodyParser : null
@@ -16,7 +15,6 @@ var Candy = {
     Routes : null,
     Rules  : null,
     init: function(){
-        Candy.Modules.SocketIO   = require('socket.io');
         Candy.Modules.Express    = require('express');
         Candy.Modules.Mongoose   = require('mongoose');
         Candy.Modules.Path       = require('path');
